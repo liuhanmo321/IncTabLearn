@@ -17,7 +17,7 @@ To run the main experiments:
     python run.py -method=METHOD_NAME -gpu=GPU_ID
 ```
 
-| Method      | Joint | EWC | PNN | ILEAHE-EWC |
+| Method      | Joint | EWC | PNN | Ours       |
 |-------------|-------|-----|-----|------------|
 | METHOD_NAME | joint | ewc | pnn | ours_ewc   |
 
