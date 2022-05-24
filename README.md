@@ -17,13 +17,9 @@ To run the main experiments:
     python run.py -method=METHOD_NAME -gpu=GPU_ID
 ```
 
-| Method      | Joint | Ord-Joint | LwF | EWC |
-|-------------|-------|-----------|-----|-----|
-| METHOD_NAME | joint | ord_joint | lwf | ewc |
-
-| Method      | ACL | PNN | MUC-LwF | MUC-EWC | ILEAHE-LwF | ILEAHE-EWC |
-|-------------|-----|-----|---------|---------|------------|------------|
-| METHOD_NAME | acl | pnn | muc_lwf | muc_ewc | ours_lwf   | ours_ewc   |
+| Method      | Joint | EWC | PNN | ILEAHE-EWC |
+|-------------|-------|-----|-----|------------|
+| METHOD_NAME | joint | ewc | pnn | ours_ewc   |
 
 To test individual method, run main.py with the following parameters.
 
@@ -33,8 +29,7 @@ To test individual method, run main.py with the following parameters.
 
 Related parameters:
 
-    -method: method to use. 'lwf', 'ewc', 'ours_lwf', 'ours_ewc',
-    'muc_lwf', 'muc_ewc', 'pnn', 'acl', 'joint', 'ord_joint'
+    -method: method to use. 'ewc', 'ours_ewc', 'pnn', 'joint'
 
     -data_name: dataset to train on, choices are: 'bank', 'blastchar', 'income', 
     'shoppers', 'shrutime', 'volkert' 
@@ -50,95 +45,40 @@ Related parameters:
 
 For the parameters used, the ones need specialization are listed in below tables. While for the parameters or models not mentioned, use the default parameters directly.
 
-For parameters of ILEAHE-LwF and ILEAHE-EWC, the parameters are:
+For parameters of Ours, the parameters are:
 
 | 　       | distill_frac |           | 　     | 　       | 　       | 　      |
 |----------|------------------------|-----------|--------|----------|----------|---------|
 | 　       | bank | blastchar | income | shoppers | shrutime | volkert |
-| ILEAHE-LwF | 0.2 | 1         | 0.2    | 1        | 0.2      | 0.1     |
-| ILEAHE-EWC | 0.5 | 0.5       | 1      | 0.5      | 1        | 1       |
+| Ours | 0.5 | 0.5       | 1      | 0.5      | 1        | 1       |
 
 | 　       | alpha                  | 　        | 　     | 　       | 　       | 　      |
 |----------|------------------------|-----------|--------|----------|----------|---------|
 | 　       | bank | blastchar | income | shoppers | shrutime | volkert |
-| ILEAHE-LwF | 0.1 | 0.4       | 0.1    | 0.2      | 0.2      | 0.2     |
-| ILEAHE-EWC | 0.2 | 0.3       | 0.1    | 0.2      | 0.2      | 0.2     |
+| Ours | 0.2 | 0.3       | 0.1    | 0.2      | 0.2      | 0.2     |
 
 | 　       | beta                  | 　        | 　     | 　       | 　       | 　      |
 |----------|------------------------|-----------|--------|----------|----------|---------|
 | 　       | bank                   | blastchar | income | shoppers | shrutime | volkert |
-| ILEAHE-LwF | 0.1                    | 2       | 0.1    | 0.5      | 2        | 0.1     |
-| ILEAHE-EWC | 0.1                    | 0.5       | 0.5    | 2        | 1        | 1       |
+| Ours | 0.1                    | 0.5       | 0.5    | 2        | 1        | 1       |
 
 | 　       | gamma                  | 　        | 　     | 　       | 　       | 　      |
 |----------|------------------------|-----------|--------|----------|----------|---------|
 | 　       | bank | blastchar | income | shoppers | shrutime | volkert |
-| ILEAHE-LwF | 30 | 5         | 15     | 5       | 30       | 5       |
-| ILEAHE-EWC | 15                     | 10        | 25     | 25       | 15       | 10      |
+| Ours | 15                     | 10        | 25     | 25       | 15       | 10      |
 
-For parameters of LwF and EWC:
+For parameters of EWC:
 
 |     | distill_frac |           |        |          |          |         |
 |-----|----------------------|-----------|--------|----------|----------|---------|
 |     | bank                 | blastchar | income | shoppers | shrutime | volkert |
-| LwF | 1                    | 0.2       | 1      | 1        | 0.2      | 1       |
 | EWC | 1                    | 2         | 1      | 1        | 1        | 1       |
-
-|     | T                    |           |        |          |          |         |
-|----------|------------------------|-----------|--------|----------|----------|---------|
-|     | bank                 | blastchar | income | shoppers | shrutime | volkert |
-| LwF | 4                    | 2         | 2      | 4        | 2        | 2       |
 
 For parameters of Joint:
 |       | lr     |           |        |          |          |         |
 |-------|--------|-----------|--------|----------|----------|---------|
 |       | bank   | blastchar | income | shoppers | shrutime | volkert |
 | joint | 0.0001 | 0.0001    | 0.0001 | 0.0001   | 0.0001   | 0.0005  |
-
-For parameters of MUC-LwF:
-
-|         | distill_frac |           |        |          |          |         |
-|---------|--------------------|-----------|--------|----------|----------|---------|
-|         | bank | blastchar | income | shoppers | shrutime | volkert |
-| MUC-LwF | 1                  | 1         | 0.005  | 0.1      | 0.5      | 1       |
-
-|         | T                  |           |        |          |          |         |
-|---------|--------------------|-----------|--------|----------|----------|---------|
-|         | bank               | blastchar | income | shoppers | shrutime | volkert |
-| MUC-LwF | 2                  | 4         | 4      | 4        | 2        | 2       |
-
-**Parameter Search Space**
-
-Because we decrease learning rate during training, it is not searched for methods other than Joint and Ord-Joint, which are sensitive to learning rates.
-
-ILEAHE-LwF and ILEAHE-EWC
-
-    T: {0.5, 1, 2, 4} (For ILEAHE-LwF)
-    distill_frac: {0.005, 0.1, 0.2, 0.5, 1, 2}
-    alpha: {0.1, 0.2, 0.3, 0.4, 0.5}    
-    beta: {0.1, 0.5, 1, 2, 5}
-    gamma: {5, 10, 15, 20, 25, 30}
-
-Ord-Joint and Joint
-
-    lr: {0.0001, 0.0005}
-
-LwF
-
-    T: {0.5, 1, 2, 4}
-    distill_frac: {0.005, 0.1, 0.2, 0.5, 1, 2}
-
-EWC
-
-    distill_frac: {0.005, 0.1, 0.2, 0.5, 1, 2}
-
-MUC-LwF and MUC-EWC
-
-    T: {0.5, 1, 2, 4} (For MUC-LwF)
-    distill_frac: {0.005, 0.1, 0.2, 0.5, 1, 2}
-
-Hyperparameters for ACL are adopted from original implementation, PNN doesn't include hyperparameters other than learning rate.
-
 
 **Data Set Info**
 

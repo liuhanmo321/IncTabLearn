@@ -10,14 +10,10 @@ from hyperopt import fmin, tpe, hp, STATUS_OK, Trials, partial
 
 from models.ablations import baseline_shared_only, baseline_specific_only
 from models.ablations_ewc import baseline_shared_only_ewc
-from models.ours import ours
-from models.baselines import baseline_ord_joint, baseline_joint, baseline_finetune
-from models.acl import baseline_acl
+from models.baselines import baseline_joint, baseline_finetune
 # from models.test import ours_test/
 from models.ours_ewc import ours_ewc
-from models.muc import muc
 from models.pnn import pnn
-from models.muc_ewc import muc_ewc
 
 from prettytable import PrettyTable
 
@@ -139,28 +135,16 @@ if __name__ == '__main__':
 
             acc_mean = 0
             def run():
-                if opt.method == 'lwf':
-                    acc = baseline_shared_only(opt)
                 if opt.method == 'specific_only':
                     acc = baseline_specific_only(opt)
-                if opt.method == 'ours_lwf':
-                    acc = ours(opt)
                 if opt.method == 'joint':
                     acc = baseline_joint(opt)
                 if opt.method == 'finetune':
-                    acc = baseline_finetune(opt)
-                if opt.method == 'ord_joint':
-                    acc = baseline_ord_joint(opt)
-                if opt.method == 'acl':
-                    acc = baseline_acl(opt)           
+                    acc = baseline_finetune(opt)         
                 if opt.method == 'ewc':
                     acc = baseline_shared_only_ewc(opt)
                 if opt.method == 'ours_ewc':
                     acc = ours_ewc(opt)
-                if opt.method == 'muc_ewc':
-                    acc = muc_ewc(opt)
-                if opt.method == 'muc_lwf':
-                    acc = muc(opt)
                 if opt.method == 'pnn':
                     acc = pnn(opt) 
                 return acc
@@ -195,30 +179,18 @@ if __name__ == '__main__':
                 for i in range(4):
                 # opt.set_seed = i + 1
                 # opt.dset_seed = 5 - i
-                    if opt.method == 'lwf':
-                        baseline_shared_only(opt)
                     if opt.method == 'specific_only':
                         baseline_specific_only(opt)
-                    if opt.method == 'ours_lwf':
-                        ours(opt)
-                    if opt.method == 'ord_joint':
-                        baseline_ord_joint(opt)
                     if opt.method == 'joint':
                         baseline_joint(opt)
                     if opt.method == 'finetune':
                         baseline_finetune(opt)
-                    if opt.method == 'acl':
-                        baseline_acl(opt)
                     if opt.method == 'ewc':
                         baseline_shared_only_ewc(opt)
                     if opt.method == 'ours_ewc':
                         ours_ewc(opt)
-                    if opt.method == 'muc_lwf':
-                        muc(opt)
                     if opt.method == 'pnn':
                         pnn(opt)
-                    if opt.method == 'muc_ewc':
-                        muc_ewc(opt)
 
         else:
             opt.set_seed = seed_dict[opt.data_name]
@@ -229,27 +201,15 @@ if __name__ == '__main__':
             times = 4
 
             for i in range(times): 
-                if opt.method == 'lwf':
-                    baseline_shared_only(opt)
                 if opt.method == 'specific_only':
                     baseline_specific_only(opt)
-                if opt.method == 'ours_lwf':
-                    ours(opt)
-                if opt.method == 'ord_joint':
-                    baseline_ord_joint(opt)
                 if opt.method == 'joint':
                     baseline_joint(opt)
                 if opt.method == 'finetune':
                     baseline_finetune(opt)
-                if opt.method == 'acl':
-                    baseline_acl(opt)
                 if opt.method == 'ewc':
                     baseline_shared_only_ewc(opt)
                 if opt.method == 'ours_ewc':
                     ours_ewc(opt)
-                if opt.method == 'muc_lwf':
-                    muc(opt)
                 if opt.method == 'pnn':
-                    pnn(opt)
-                if opt.method == 'muc_ewc':
-                    muc_ewc(opt)                    
+                    pnn(opt)             
